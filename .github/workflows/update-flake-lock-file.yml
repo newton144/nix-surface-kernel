@@ -1,4 +1,4 @@
-name: Update Flake Lock
+name: Update flake lock
 
 on:
   workflow_dispatch: {}
