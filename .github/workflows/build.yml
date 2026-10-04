@@ -1,0 +1,21 @@
+name: Build nixpad
+
+on:
+  workflow_dispatch: {}
+  push:
+    branches:
+      - main
+    paths:
+      - '**'
+  # pull_request:
+  #   branches:
+  #     - main
+  #   paths:
+  #     - '**'
+
+jobs:
+  build-nixpad:
+    uses: ./.github/workflows/build-template.yml
+    with:
+      template: 'nixpad'
+      arch: 'x86_64-linux'
