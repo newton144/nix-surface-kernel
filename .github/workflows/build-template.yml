@@ -70,4 +70,5 @@ jobs:
           name: newton144-nix-surface
           # signingKey: ' secrets.CACHIX_SIGNING_KEY '
           authToken: '${{ secrets.CACHIX_AUTH_TOKEN }}'
+          cachixArgs: '-v'
       - run: nix flake check

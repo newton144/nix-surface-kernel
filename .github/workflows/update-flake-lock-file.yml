@@ -24,6 +24,7 @@ jobs:
         with:
           name: newton144-nix-surface
           authToken: '${{ secrets.CACHIX_AUTH_TOKEN }}'
+          cachixArgs: '-v'
       - name: Update flake.lock
         uses: DeterminateSystems/update-flake-lock@da03c0f078bc4b2c37ee4f7e072d34bf8f188bb3 # v29
         with:
