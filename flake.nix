@@ -23,12 +23,12 @@
       pkgs = import nixpkgs {
         inherit system;
         config.allowUnfree = true;
-        overlays = [
-          nixgl.overlay
-          (self: super: {
-            linux-firmware = fwpin.linux-firmware;
-          })
-        ];
+        #overlays = [
+          #nixgl.overlay
+          #(self: super: {
+            #linux-firmware = fwpin.linux-firmware;
+          #})
+        #];
       };
       fwpin-pkgs = import fwpin {
         inherit system;
