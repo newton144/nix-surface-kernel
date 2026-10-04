@@ -19,17 +19,7 @@
     let
       lib = nixpkgs-unstable.lib;
       system = "x86_64-linux";
-      nixpkgs = nixpkgs-unstable;
-      pkgs = import nixpkgs {
-        inherit system;
-        config.allowUnfree = true;
-        #overlays = [
-          #nixgl.overlay
-          #(self: super: {
-            #linux-firmware = fwpin.linux-firmware;
-          #})
-        #];
-      };
+      pkgs = nixpkgs-stable.legacyPackages.${system};
       fwpin-pkgs = import fwpin {
         inherit system;
       };
@@ -38,7 +28,7 @@
       nixosModules.default = { config, lib, pkgs, ... }: {
         imports = [
           ({ nixpkgs, ... }: {
-            nixpkgs.overlays = [
+            nixpkgs.overlays = lib.mkForce [
               (self: super: {
                 linux-firmware = fwpin-pkgs.linux-firmware;
               })
@@ -51,18 +41,10 @@
       checks.${system}.my-module-test = pkgs.testers.runNixOSTest {
         name = "my-module-test";
         nodes.machine = { config, pkgs, ... }: {
-          # Import your module directly from the flake
           imports = [ self.nixosModules.default ];
-          
-          # Enable or configure options provided by your module
-          #my-service.enable = true; 
         };
-
-        #testScript = ''
-          #start_all()
-          #machine.wait_for_unit("my-service.service")
-          #machine.succeed("curl http://localhost:8080")
-        #'';
+        testScript = ''
+        '';
       };
 
     };
