@@ -7,7 +7,7 @@ on:
 
 jobs:
   check-build:
-    uses: ./.github/workflows/build-template.yml
+    uses: ./.github/workflows/build-flake.yml
 
   update-flake:
     runs-on: ubuntu-latest
