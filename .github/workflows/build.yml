@@ -16,6 +16,3 @@ on:
 jobs:
   build-nixpad:
     uses: ./.github/workflows/build-template.yml
-    with:
-      template: 'nixpad'
-      arch: 'x86_64-linux'
