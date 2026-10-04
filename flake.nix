@@ -9,10 +9,6 @@
     nixos-hardware = {
       url = "github:NixOS/nixos-hardware/master";
     };
-    #lanzaboote = {
-      #url = "github:nix-community/lanzaboote";
-      #inputs.nixpkgs.follows = "nixpkgs-stable";
-    #};
     nixgl = {
       url = "github:nix-community/nixGL";
       inputs.nixpkgs.follows = "nixpkgs-unstable";
@@ -38,10 +34,8 @@
         inherit system;
       };
     in {
-      surface = { config, lib, pkgs, ... }: {
-        #options.services.my-service = {
-          #enable = lib.mkEnableOption "my custom service";
-        #};
+
+      nixosModules.default = { config, lib, pkgs, ... }: {
         imports = [
           ({ nixpkgs, ... }: {
             nixpkgs.overlays = [
@@ -52,22 +46,24 @@
           })
           nixos-hardware.nixosModules.microsoft-surface-pro-intel
         ];
-
-        #config = {
-          #environment.systemPackages = [ pkgs.hello ];
-        #};
       };
 
-      #nixpad = lib.nixosSystem {
-        #inherit system;
-        #modules = [
-          #lanzaboote.nixosModules.lanzaboote
-          #(import ./hardware-configuration.nix)
-          #(import ./nixpad.nix)
-          #(import ./configuration.nix {
-            #inherit inputs pkgs nixpkgs lib;
-          #})
-        #];
-      #};
+      checks.${system}.my-module-test = pkgs.testers.runNixOSTest {
+        name = "my-module-test";
+        nodes.machine = { config, pkgs, ... }: {
+          # Import your module directly from the flake
+          imports = [ self.nixosModules.default ];
+          
+          # Enable or configure options provided by your module
+          #my-service.enable = true; 
+        };
+
+        #testScript = ''
+          #start_all()
+          #machine.wait_for_unit("my-service.service")
+          #machine.succeed("curl http://localhost:8080")
+        #'';
+      };
+
     };
 }
