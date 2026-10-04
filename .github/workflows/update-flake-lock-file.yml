@@ -28,6 +28,6 @@ jobs:
         run: |
           git config --global user.name "github-actions[bot]"
           git config --global user.email "github-actions[bot]@users.noreply.github.com"
-          git commit -am "flake.lock: automated update"
-          git push
+          git add flake.lock
+          git diff --quiet && git diff --staged --quiet || (git commit -m "auto-update flake.lock" && git push)
 
