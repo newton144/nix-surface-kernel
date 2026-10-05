@@ -8,6 +8,8 @@ on:
 jobs:
   update-flake:
     runs-on: ubuntu-latest
+    permissions:
+      contents: write
     steps:
       - uses: actions/checkout@v7
       - uses: cachix/install-nix-action@v31
